@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const { validationResult } = require("express-validator");
 
 const register = async (req, res) => {
+  const expiresInTime = 30 * 24 * 60 * 60;
   // Validation
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -43,7 +44,7 @@ const register = async (req, res) => {
     await jwt.sign(
       payload,
       process.env.JWT_SECRET,
-      { expiresIn: 360000 },
+      { expiresIn: expiresInTime },
       (err, token) => {
         if (err) throw err;
         res.json({ token });
